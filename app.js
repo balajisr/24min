@@ -5,9 +5,16 @@ var clock = function(nazhigai, min, vinadi) {
 }
 
 var trigger = function() {
-    const today = new Date().getTime();
+    const date = new Date().getDate() + "";
+    const month = new Date().getMonth()+1 + "";
+    const year = new Date().getFullYear() + "";
+    const today = new Date(`${month}/${date}/${year}`).getTime();
     const now = new Date().getTime();
-    const nazhigai = time/(24*60000);
+    let nazhigai = Math.round(((now-today)/1000)/1440).toString();
+    if(nazhigai.length === 1) {
+        nazhigai = "0"+nazhigai;
+    }
+    document.getElementById('nazhigai').innerText = nazhigai;
 }
 
-setTimeout(trigger, 1000);
+setInterval(trigger, 1000);
