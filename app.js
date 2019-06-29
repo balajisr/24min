@@ -1,7 +1,7 @@
-var clock = function(nazhigai, min, vinadi) {
-    this.nazhigai = nazhigai;
-    this.min = min;
-    this.vinadi = vinadi;
+var clock = function() {}
+
+clock.prototype.pushTime = function(time) {
+    document.getElementById('clock').innerText = `${time}`;
 }
 
 var trigger = function() {
@@ -10,11 +10,23 @@ var trigger = function() {
     const year = new Date().getFullYear() + "";
     const today = new Date(`${month}/${date}/${year}`).getTime();
     const now = new Date().getTime();
-    let nazhigai = Math.round(((now-today)/1000)/1440).toString();
-    if(nazhigai.length === 1) {
-        nazhigai = "0"+nazhigai;
+
+    function msToTime(duration) {
+        var seconds = Math.floor((duration / 1000) % 60),
+          minutes = Math.floor((duration / (1000 * 60)) % 24),
+          hours = Math.floor((duration / (1000 * 24 * 60)) % 60);
+      
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+      
+        return hours + ":" + minutes + ":" + seconds;
     }
-    document.getElementById('nazhigai').innerText = nazhigai;
+
+    let time = msToTime(now-today);
+
+    const clk = new clock();
+    clk.pushTime(time);
 }
 
 setInterval(trigger, 1000);
